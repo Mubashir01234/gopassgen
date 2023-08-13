@@ -5,7 +5,7 @@ A simple Go package to generate random passwords based on user-defined criteria.
 ## Usage
 
 ```go
-import "github.com/yourusername/gopassgen"
+import "github.com/Mubashir01234/gopassgen"
 
 opts := gopassgen.Options{
 	Length:    12,
