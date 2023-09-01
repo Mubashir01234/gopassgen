@@ -5,13 +5,6 @@ import (
 	"time"
 )
 
-const (
-	lowerCharSet   = "abcdefghijklmnopqrstuvwxyz"
-	upperCharSet   = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-	specialCharSet = "!@#$%^&*()-_=+|[]{};:/?.<>"
-	numberSet      = "0123456789"
-)
-
 func init() {
 	rand.Seed(time.Now().UnixNano())
 }
@@ -24,38 +17,46 @@ type Options struct {
 	HasNumbers bool
 }
 
-func GeneratePassword(opts Options) (string, error) {
-	if opts.Length <= 0 {
+type passgen struct {
+	opt Options
+}
+
+func New(opt Options) *passgen {
+	return &passgen{opt}
+}
+
+func (o *passgen) GeneratePassword() (string, error) {
+	if o.opt.Length <= 0 {
 		return "", errInvalidLength
 	}
 
-	if !opts.HasLower && !opts.HasUpper && !opts.HasSymbols && !opts.HasNumbers {
+	if !o.opt.HasLower && !o.opt.HasUpper && !o.opt.HasSymbols && !o.opt.HasNumbers {
 		return "", errMissingOption
 	}
 
-	return createPassword(opts), nil
+	return o.createPassword(), nil
 }
 
-func createPassword(opts Options) string {
+func (o *passgen) createPassword() string {
 	var chars string
-	if opts.HasLower {
+	if o.opt.HasLower {
 		chars += lowerCharSet
 	}
-	if opts.HasUpper {
+	if o.opt.HasUpper {
 		chars += upperCharSet
 	}
-	if opts.HasNumbers {
+	if o.opt.HasNumbers {
 		chars += numberSet
 	}
-	if opts.HasSymbols {
+	if o.opt.HasSymbols {
 		chars += specialCharSet
 	}
-	return generatePassword(opts.Length, chars)
+	return o.generatePassword(chars)
 }
 
-func generatePassword(length int, chars string) string {
+func (o *passgen) generatePassword(chars string) string {
 	charRunes := []rune(chars)
-	passwordRunes := make([]rune, length)
+	passwordRunes := make([]rune, o.opt.Length)
 	for i := range passwordRunes {
 		passwordRunes[i] = charRunes[rand.Intn(len(charRunes))]
 	}

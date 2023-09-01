@@ -8,17 +8,18 @@ A simple Go package to generate random passwords based on user-defined criteria.
 ```go
 import "github.com/Mubashir01234/gopassgen"
 
-opts := gopassgen.Options{
-	Length:    12,
-	HasLower:  true,
-	HasUpper:  true,
-	HasSymbols: true,
-	HasNumbers: true,
-}
+o := gopassgen.New(gopassgen.Options{
+		Length:     12,
+		HasLower:   true,
+		HasUpper:   true,
+		HasSymbols: true,
+		HasNumbers: true,
+})
 
-password, err := gopassgen.GeneratePassword(opts)
+password, err := o.GeneratePassword()
 if err != nil {
 	fmt.Println("Error generating password:", err)
 	return
 }
 fmt.Println(password)
+```
