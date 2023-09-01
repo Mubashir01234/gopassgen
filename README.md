@@ -9,11 +9,11 @@ A simple Go package to generate random passwords based on user-defined criteria.
 import "github.com/Mubashir01234/gopassgen"
 
 o := gopassgen.New(gopassgen.Options{
-		Length:     12,
-		HasLower:   true,
-		HasUpper:   true,
-		HasSymbols: true,
-		HasNumbers: true,
+	Length:     12,
+	HasLower:   true,
+	HasUpper:   true,
+	HasSymbols: true,
+	HasNumbers: true,
 })
 
 password, err := o.GeneratePassword()
