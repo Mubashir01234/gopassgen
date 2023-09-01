@@ -21,10 +21,12 @@ type passgen struct {
 	opt Options
 }
 
+// New creates a new Options for generate passwords.
 func New(opt Options) *passgen {
 	return &passgen{opt}
 }
 
+// GeneratePassword generates a new password from custom options.
 func (o *passgen) GeneratePassword() (string, error) {
 	if o.opt.Length <= 0 {
 		return "", errInvalidLength
@@ -37,6 +39,7 @@ func (o *passgen) GeneratePassword() (string, error) {
 	return o.createPassword(), nil
 }
 
+// createPassword creates a string according to options.
 func (o *passgen) createPassword() string {
 	var chars string
 	if o.opt.HasLower {
@@ -54,6 +57,7 @@ func (o *passgen) createPassword() string {
 	return o.generatePassword(chars)
 }
 
+// generatePassword return generated password.
 func (o *passgen) generatePassword(chars string) string {
 	charRunes := []rune(chars)
 	passwordRunes := make([]rune, o.opt.Length)
